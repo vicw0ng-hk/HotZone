@@ -3,6 +3,7 @@ Group Project of [COMP3297](https://www.cs.hku.hk/index.php/programmes/course-of
 
 ## Developer
 [Li Yik Wai](https://github.com/liyikwai)
+
 [HUANG, Sheng](https://github.com/vicw0ng-hk)
 
 ## Related Research
