@@ -1,7 +1,8 @@
 # HotZone
-Project of [COMP3297](https://www.cs.hku.hk/index.php/programmes/course-offered?infile=2019/comp3297.html "COMP3297 Software engineering [Section 1A, 2020]") @ [The University of Hong Kong](https://www.hku.hk/)
+Group Project of [COMP3297](https://www.cs.hku.hk/index.php/programmes/course-offered?infile=2019/comp3297.html "COMP3297 Software engineering [Section 1A, 2020]") @ [The University of Hong Kong](https://www.hku.hk/)
 
 ## Developer
+[Li Yik Wai](https://github.com/liyikwai)
 [HUANG, Sheng](https://github.com/vicw0ng-hk)
 
 ## Related Research
