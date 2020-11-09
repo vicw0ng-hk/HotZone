@@ -1,0 +1,52 @@
+<style>
+    table {
+        width: 100%;
+    }
+
+    table,
+    th,
+    td {
+        border: 1px solid black;
+        border-collapse: collapse;
+    }
+
+    th,
+    td {
+        padding: 15px;
+        text-align: left;
+    }
+</style>
+<h1>HotZone</h1>
+
+<p>Search location:</p>
+<form action="{% url 'locations:index'%}" method="post">
+    {% csrf_token %}
+    {{form.name}}
+    <input type="submit" name="Find Location">
+</form>
+
+{% if location_list %}
+<p>Location list:</p>
+<table>
+    <tr>
+        <th>addressZH</th>
+        <th>nameZH</th>
+        <th>x</th>
+        <th>y</th>
+        <th>nameEN</th>
+        <th>addressEN</th>
+    </tr>
+    {% for location in location_list %}
+    <tr>
+        <td>{{ location.addressZH }}</td>
+        <td>{{ location.nameZH }}</td>
+        <td>{{ location.x }}</td>
+        <td>{{ location.y }}</td>
+        <td>{{ location.nameEN }}</td>
+        <td>{{ location.addressEN }}</td>
+    </tr>
+    {% endfor %}
+</table>
+{% else %}
+<p>No location are found.</p>
+{% endif %}

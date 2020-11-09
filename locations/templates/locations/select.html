@@ -1,0 +1,15 @@
+<h1>Select location</h1>
+{% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
+<form action="{% url 'locations:select' query %}" method="post">
+    {% csrf_token %}
+    <table>
+        {% for location in select_list %}
+        <tr>
+            <td><input type="radio" name="choice" id="choice{{ forloop.counter0 }}" value="{{ forloop.counter0 }}"></td>
+            <td>Name: {{ location.nameEN }}</td>
+            <td>Address: {{ location.addressEN }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+    <input type="submit" value="Select">
+</form>
