@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Add Cases</title>
+</head>
+<body>
+<form method="POST" action="/cases/">
+    {% csrf_token %}
+    {% load l10n %}
+    <p>
+    <table>
+    <tr>
+        <th>Case No.</th>
+        <th>Date Confirmed</th>
+        <th>Local/Imported</th>
+    </tr>
+    <tr>
+        <th>{{ form.case_no }}</th>
+        <th>{{ form.date_confirmed | localize }}</th>
+        <th>{{ form.local }}</th>
+    </tr>
+    </table>
+    </p>
+    <p>
+    <table>
+    <tr>
+        <th>Patient Name</th>
+        <th>Patient ID No.</th>
+        <th>Patient Birthday</th>
+    </tr>
+    <tr>
+        <th>{{ form.patient_name }}</th>
+        <th>{{ form.patient_id }}</th>
+        <th>{{ form.patient_birthday | localize }}</th>
+    </tr>
+    </table>
+    </p>
+    <p>
+    <table>
+    <tr>
+        <th>Virus Name</th>
+        <th>Virus Common Name</th>
+        <th>Maximum Infectious Period</th>
+    </tr>
+    <tr>
+        <th>{{ form.virus_name }}</th>
+        <th>{{ form.virus_common_name }}</th>
+        <th>{{ form.max_inf_period }}</th>
+    </tr>
+    </table>
+    </p>
+    <p>
+    <table>
+    <tr>
+        <th>Location</th>
+        <th>Date From</th>
+        <th>Date To</th>
+        <th>Category</th>
+    </tr>
+    <tr>
+        <th>{{ form.location }}</th>
+        <th>{{ form.date_from | localize }}</th>
+        <th>{{ form.date_to | localize }}</th>
+        <th>{{ form.category }}</th>
+    </tr>
+    </table>
+    </p>
+    <input type="submit" name="Add Case" value="Add Case">
+</form>
+</body>
+</html>
