@@ -9,7 +9,7 @@ class Patient(models.Model):
     birthday = models.DateField()
 
     def __str__(self):
-        return self.hkid
+        return str(self.id)
 
 
 class Virus(models.Model):
@@ -29,7 +29,7 @@ class Case(models.Model):
     virus = models.ForeignKey(Virus, on_delete=models.CASCADE)
 
     def __str__(self):
-        return self.no
+        return str(self.no)
 
 
 class CaseLocation(models.Model):
@@ -39,6 +39,3 @@ class CaseLocation(models.Model):
                                 default='Residence')
     location = models.ForeignKey(Location, on_delete=models.CASCADE)
     case = models.ForeignKey(Case, on_delete=models.CASCADE)
-
-    def __str__(self):
-        return self.id
