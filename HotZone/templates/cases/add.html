@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Add Cases</title>
+</head>
+<body>
+<form method="POST" action="/cases/add">
+    {% csrf_token %}
+    {% load l10n %}
+    {% if messages %}
+    <ul class="messages">
+        {% for message in messages %}
+        <div {% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</div>
+        {% endfor %}
+    </ul>
+    {% endif %}
+    <table>
+    <tr>
+        <th>Case No.</th>
+        <th>Date Confirmed</th>
+        <th>Local/Imported</th>
+    </tr>
+    <tr>
+        <th>{{ form.case_no }}</th>
+        <th>{{ form.date_confirmed | localize }}</th>
+        <th>{{ form.local }}</th>
+        <th><input type="submit" name="Add Case" value="Next"></th>
+    </tr>
+    </table>
+</form>
+</body>
+</html>

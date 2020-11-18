@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Create New Virus</title>
+</head>
+<body>
+<form method="POST" action="/cases/add/create_virus">
+    {% csrf_token %}
+    {% load l10n %}
+    <table>
+    <tr>
+        <th>Virus Name</th>
+        <th>Virus Common Name</th>
+        <th>Maximum Infectious Period</th>
+    </tr>
+    <tr>
+        <th>{{ form.virus_name }}</th>
+        <th>{{ form.virus_common_name }}</th>
+        <th>{{ form.max_inf_period }}</th>
+        <th><input type="submit" name="Add Case" value="Next"></th>
+    </tr>
+    </table>
+</body>
+</html>

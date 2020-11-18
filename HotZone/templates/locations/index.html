@@ -29,21 +29,17 @@
 <p>Location list:</p>
 <table>
     <tr>
-        <th>addressZH</th>
-        <th>nameZH</th>
+        <th>name</th>
+        <th>address</th>
         <th>x</th>
         <th>y</th>
-        <th>nameEN</th>
-        <th>addressEN</th>
     </tr>
     {% for location in location_list %}
     <tr>
-        <td>{{ location.addressZH }}</td>
-        <td>{{ location.nameZH }}</td>
+        <td>{{ location.name }}</td>
+        <td>{{ location.address }}</td>
         <td>{{ location.x }}</td>
         <td>{{ location.y }}</td>
-        <td>{{ location.nameEN }}</td>
-        <td>{{ location.addressEN }}</td>
     </tr>
     {% endfor %}
 </table>
