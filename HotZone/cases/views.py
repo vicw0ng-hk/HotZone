@@ -3,9 +3,10 @@ from .forms import *
 from .models import *
 from django.contrib import messages
 
-
 # Create your views here.
 case = {}
+
+
 def add(request):
     form = CaseForm()
     context = {'form': form}
@@ -38,7 +39,7 @@ def add_virus(request):
         case['virus'] = tmp.__getitem__('virus_name')
         return redirect('/cases/add/location')
     return render(request, 'cases/add_virus.html', context)
-    
+
 
 def add_location(request):
     form = CaseLocationForm()
@@ -52,20 +53,33 @@ def add_location(request):
         case['category'] = tmp.__getitem__('category')
         new_patient = Patient(name=case['patient_name'], hkid=case['patient_id'], birthday=case['patient_birthday'])
         new_patient.save()
-        new_case = Case(no=case['case_no'], date_confirmed=case['date_confirmed'], local=case['local'], patient=new_patient, virus=Virus.objects.get(pk=int(case['virus'])))
+        new_case = Case(no=case['case_no'], date_confirmed=case['date_confirmed'], local=case['local'],
+                        patient=new_patient, virus=Virus.objects.get(pk=int(case['virus'])))
         new_case.save()
-        new_caseLocation = CaseLocation(location=Location.objects.get(pk=int(case['location'])), date_from=case['date_from'], date_to=case['date_to'], category=case['category'], case=new_case)
+        new_caseLocation = CaseLocation(location=Location.objects.get(pk=int(case['location'])),
+                                        date_from=case['date_from'], date_to=case['date_to'], category=case['category'],
+                                        case=new_case)
         new_caseLocation.save()
         messages.warning(request, 'Success!')
-        return redirect('/cases/add')
+        return redirect('/cases')
     return render(request, 'cases/add_location.html', context)
+
 
 def create_virus(request):
     form = NewVirusForm()
     context = {'form': form}
     if request.method == 'POST':
         tmp = request.POST
-        new_virus = Virus(name=tmp.__getitem__('virus_name'), common_name=tmp.__getitem__('virus_name'), max_inf_period=tmp.__getitem__('max_inf_period')) 
+        new_virus = Virus(name=tmp.__getitem__('virus_name'), common_name=tmp.__getitem__('virus_name'),
+                          max_inf_period=tmp.__getitem__('max_inf_period'))
         new_virus.save()
         return redirect('/cases/add/virus')
     return render(request, 'cases/create_virus.html', context)
+
+
+def main(request):
+    cases = Case.objects.order_by('-no')[:]
+    for case in cases:
+        case.local = case.local.replace('1', 'local').replace('2', 'imported')
+    context = {'cases': cases}
+    return render(request, 'cases/main.html', context)
