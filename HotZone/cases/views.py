@@ -45,7 +45,6 @@ def add_location(request):
     form = CaseLocationForm()
     context = {'form': form}
     if request.method == 'POST':
-        print(case)
         tmp = request.POST
         case['location'] = tmp.__getitem__('location')
         case['date_from'] = tmp.__getitem__('date_from')
@@ -83,3 +82,30 @@ def main(request):
         case.local = case.local.replace('1', 'local').replace('2', 'imported')
     context = {'cases': cases}
     return render(request, 'cases/main.html', context)
+
+
+def caselocation(request):
+    case_num = request.GET.get('no')
+    caseLocations = CaseLocation.objects.filter(case__no=case_num)
+    for caselocation in caseLocations:
+        caselocation.category = caselocation.category.replace('1', 'Residence').replace('2', 'Workplace').replace('3', 'Visit')
+    context = {'caseLocations' : caseLocations, 'no': case_num}
+    return render(request, 'cases/caselocation.html', context)
+
+def caselocation_add(request):
+    case_num = request.GET.get('no')
+    case = Case.objects.filter(no=case_num).first()
+    form = CaseLocationForm()
+    if request.method == 'POST':
+        tmp = request.POST
+        loc = tmp.__getitem__('location')
+        dt_f = tmp.__getitem__('date_from')
+        dt_t = tmp.__getitem__('date_to')
+        cat = tmp.__getitem__('category')
+        new_caseLocation = CaseLocation(location=Location.objects.get(pk=loc),
+                                        date_from=dt_f, date_to=dt_t, category=cat,
+                                        case=case)
+        new_caseLocation.save()
+        return redirect('/cases/caselocation?no=' + case_num)
+    context = {'form': form, 'no': case_num}
+    return render(request, 'cases/case_add_location.html', context)

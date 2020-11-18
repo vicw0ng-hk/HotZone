@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Case Location</title>
+</head>
+<body>
+{% csrf_token %}
+<a href="/cases">
+    <input type="submit" name="back" value="Go Back">
+</a>
+<a href="/cases/caselocation/add?no={{ no }}">
+    <input type="submit" name="add" value="Add a Location Record">
+</a>
+<table>
+    <tr>
+        <th>Location</th>
+        <th>Address</th>
+        <th>X Coord</th>
+        <th>Y Coord</th>
+        <th>Date From</th>
+        <th>Date To</th>
+        <th>Category</th>
+    </tr>
+    {% for caselocation in caseLocations %}
+    <tr>
+        <th>{{ caselocation.location.name }}</th>
+        <th>{{ caselocation.location.address }}</th>
+        <th>{{ caselocation.location.x }}</th>
+        <th>{{ caselocation.location.y }}</th>
+        <th>{{ caselocation.date_from }}</th>
+        <th>{{ caselocation.date_to }}</th>
+        <th>{{ caselocation.category }}</th>
+    </tr>
+    {% endfor %}
+</table>
+</body>
+</html>
