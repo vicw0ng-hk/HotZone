@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>View Cases</title>
+</head>
+<body>
+{% csrf_token %}
+<a href="add">
+    <input type="submit" name="create_virus" value="Add Case">
+</a>
+<a href="/locations">
+    <input type="submit" name="create_virus" value="Add Location">
+</a>
+<table>
+    <tr>
+        <th>Case No.</th>
+        <th>Date Confirmed</th>
+        <th>Local/Imported</th>
+        <th>Patient Name</th>
+        <th>Patient ID</th>
+        <th>Patient Birthday</th>
+        <th>Virus Name</th>
+        <th>Virus Common Name</th>
+        <th>Maximum Infectious Period</th>
+    </tr>
+    {% for case in cases %}
+    <tr>
+        <th>{{ case.no }}</th>
+        <th>{{ case.date_confirmed }}</th>
+        <th>{{ case.local }}</th>
+        <th>{{ case.patient.name }}</th>
+        <th>{{ case.patient.hkid }}</th>
+        <th>{{ case.patient.birthday }}</th>
+        <th>{{ case.virus.name }}</th>
+        <th>{{ case.virus.common_name }}</th>
+        <th>{{ case.virus.max_inf_period }}</th>
+    </tr>
+    {% endfor %}
+</table>
+</body>
+</html>
