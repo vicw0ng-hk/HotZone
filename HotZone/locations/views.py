@@ -45,8 +45,16 @@ def select(request, query):
                                     y=selected_choice['y'],
                                     name=selected_choice['nameEN'],
                                     address=selected_choice['addressEN'])
-            new_location.save()
-            return redirect('/locations/')
+            if Location.objects.filter(address=new_location.address).exists():
+                context = {
+                    'query': query,
+                    'select_list': select_list,
+                    'error_message': "The location list has already contained this location.",
+                }
+                return HttpResponse(template.render(context, request))
+            else:
+                new_location.save()
+                return redirect('/locations/')
         else:
             context = {
                 'query': query,

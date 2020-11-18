@@ -10,7 +10,7 @@
     <input type="submit" name="create_virus" value="Add Case">
 </a>
 <a href="/locations">
-    <input type="submit" name="create_virus" value="Add Location">
+    <input type="submit" name="create_virus" value="Check All Locations">
 </a>
 <table>
     <tr>
@@ -35,6 +35,7 @@
         <th>{{ case.virus.name }}</th>
         <th>{{ case.virus.common_name }}</th>
         <th>{{ case.virus.max_inf_period }}</th>
+        <th><a href="caselocation?no={{ case.no }}">Check Case Location</a></th>
     </tr>
     {% endfor %}
 </table>
