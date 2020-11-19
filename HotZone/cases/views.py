@@ -37,7 +37,8 @@ def create_virus(request):
     context = {'form': form}
     if request.method == 'POST':
         tmp = request.POST
-        new_virus = Virus(name=tmp.__getitem__('virus_name'), common_name=tmp.__getitem__('virus_name'),
+        new_virus = Virus(name=tmp.__getitem__('virus_name'),
+                          common_name=tmp.__getitem__('virus_common_name'),
                           max_inf_period=tmp.__getitem__('max_inf_period'))
         new_virus.save()
         return redirect('/cases')
