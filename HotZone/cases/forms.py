@@ -5,7 +5,7 @@ from .models import *
 class CaseForm(forms.ModelForm):
     case_no = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control'}))
     date_confirmed = forms.DateField(widget=forms.widgets.DateInput(attrs={'type': 'date', 'class': 'form-control'}), localize=True)
-    local = forms.CharField(widget=forms.Select(attrs={'class': 'form-control'}, choices=[('1', 'local'), ('2', 'imported')]))
+    local = forms.CharField(widget=forms.Select(attrs={'class': 'form-control'}, choices=[('1', 'Local'), ('2', 'Imported')]))
 
     class Meta:
         model = Case
@@ -23,7 +23,8 @@ class PatientForm(forms.ModelForm):
 
 
 class VirusForm(forms.ModelForm):
-    virus_name = forms.ModelChoiceField(queryset=Virus.objects.all(), widget=forms.Select(attrs={'class': 'form-control'}))
+    virus_name = forms.ModelChoiceField(queryset=Virus.objects.all(),
+                                        widget=forms.Select(attrs={'class': 'form-control'}))
 
     class Meta:
         model = Virus

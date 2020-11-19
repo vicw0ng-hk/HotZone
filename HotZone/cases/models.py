@@ -24,7 +24,7 @@ class Virus(models.Model):
 class Case(models.Model):
     no = models.IntegerField(default=0)
     date_confirmed = models.DateField()
-    local = models.CharField(max_length=10, choices=[('1', 'local'), ('2', 'imported')], default='local')
+    local = models.CharField(max_length=10, choices=[('1', 'Local'), ('2', 'Imported')], default='Local')
     patient = models.ForeignKey(Patient, on_delete=models.CASCADE)
     virus = models.ForeignKey(Virus, on_delete=models.CASCADE)
 
@@ -35,7 +35,6 @@ class Case(models.Model):
 class CaseLocation(models.Model):
     date_from = models.DateField()
     date_to = models.DateField()
-    category = models.CharField(max_length=50, choices=[('1', 'Residence'), ('2', 'Workplace'), ('3', 'Visit')],
-                                default='Residence')
+    category = models.CharField(max_length=50, choices=[('1', 'Residence'), ('2', 'Workplace'), ('3', 'Visit')], default='Residence')
     location = models.ForeignKey(Location, on_delete=models.CASCADE)
     case = models.ForeignKey(Case, on_delete=models.CASCADE)
