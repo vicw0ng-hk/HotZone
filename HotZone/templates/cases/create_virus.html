@@ -11,6 +11,9 @@
 <body>
     <h1>Create Virus</h1>
     <hr />
+    <a href="/cases" class="btn btn-warning">
+        Back to Main Page
+    </a>
     <form method="POST" action="/cases/add/create_virus">
         {% csrf_token %}
         {% load l10n %}
@@ -32,9 +35,6 @@
             </tbody>
         </table>
     </form>
-    <a href="/cases" class="btn btn-warning">
-        Back to Main Page
-    </a>
 </body>
 
 </html>

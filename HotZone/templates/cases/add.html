@@ -17,6 +17,13 @@
     <form method="POST" action="/cases/add">
         <h1>Adding Case</h1>
         <hr />
+        <a href="/cases" class="btn btn-warning">
+            Back to Main Page
+        </a>
+
+        <a href="/cases/add/create_virus" class="btn btn-primary">
+            Create a New Virus
+        </a>
         {% csrf_token %}
         {% load l10n %}
         {% if messages %}
@@ -72,14 +79,6 @@
             </tbody>
         </table>
     </form>
-
-    <a href="/cases" class="btn btn-warning">
-        Back to Main Page
-    </a>
-
-    <a href="/cases/add/create_virus" class="btn btn-primary">
-        Create a New Virus
-    </a>
 
 </body>
 

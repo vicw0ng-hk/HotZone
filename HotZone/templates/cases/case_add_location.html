@@ -16,6 +16,13 @@
 <body>
     <h1>Add Location: Case NO. {{no}}</h1>
     <hr />
+    <a href="/cases/caselocation?no={{no}}" class="btn btn-warning">
+        Back to Case Location List
+    </a>
+
+    <a href="/locations" class="btn btn-primary">
+        Search a New Location
+    </a>
     <form method="POST" action="/cases/caselocation/add?no={{ no }}">
         {% csrf_token %}
         {% load l10n %}
@@ -44,13 +51,6 @@
             </tbody>
         </table>
     </form>
-    <a href="/cases/caselocation?no={{no}}" class="btn btn-warning">
-        Back to Case Location List
-    </a>
-
-    <a href="/locations" class="btn btn-primary">
-        Search a New Location
-    </a>
 </body>
 
 </html>

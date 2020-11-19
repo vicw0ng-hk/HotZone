@@ -10,6 +10,11 @@
 
 <body>
     <h1>Location List</h1>
+    <hr />
+    <a href="/cases" class="btn btn-warning">
+        Back to Main Page
+    </a>
+    <hr />
     <p>Search New location:</p>
     <form action="{% url 'locations:index'%}" method="post">
         {% csrf_token %}
@@ -46,10 +51,6 @@
     {% else %}
     <p>No location are found.</p>
     {% endif %}
-
-    <a href="/cases" class="btn btn-warning">
-        Back to Main Page
-    </a>
 
 </body>
 
