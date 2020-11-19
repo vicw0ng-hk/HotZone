@@ -2,27 +2,28 @@ from django.shortcuts import render, redirect
 from .forms import *
 from .models import *
 from django.contrib import messages
+from django.http import HttpResponseRedirect
 
 # Create your views here.
 case = {}
 
 
 def add(request):
-    context = {'CaseForm': CaseForm(),
-               'PatientForm': PatientForm(),
-               'VirusForm': VirusForm()
-               }
+    context = {'CaseForm': CaseForm(), 'PatientForm': PatientForm(), 'VirusForm': VirusForm()}
     if request.method == 'POST':
         tmp = request.POST
         case['case_no'] = tmp.__getitem__('case_no')
+        if Case.objects.filter(no=case['case_no']).exists():
+            messages.info(request, 'Case exists!')
+            return HttpResponseRedirect('/cases/add')
         case['date_confirmed'] = tmp.__getitem__('date_confirmed')
         case['local'] = tmp.__getitem__('local')
         case['patient_name'] = tmp.__getitem__('patient_name')
         case['patient_id'] = tmp.__getitem__('patient_id')
         case['patient_birthday'] = tmp.__getitem__('patient_birthday')
         case['virus'] = tmp.__getitem__('virus_name')
-        new_patient = Patient(
-            name=case['patient_name'], hkid=case['patient_id'], birthday=case['patient_birthday'])
+        new_patient = Patient(name=case['patient_name'], hkid=case['patient_id'],
+                              birthday=case['patient_birthday'])
         new_patient.save()
         new_case = Case(no=case['case_no'], date_confirmed=case['date_confirmed'], local=case['local'],
                         patient=new_patient, virus=Virus.objects.get(pk=int(case['virus'])))
@@ -44,7 +45,7 @@ def create_virus(request):
 
 
 def main(request):
-    cases = Case.objects.order_by('-no').reverse()
+    cases = Case.objects.order_by('-no')[:]
     for case in cases:
         case.local = case.local.replace('1', 'local').replace('2', 'imported')
     context = {'cases': cases}
@@ -55,8 +56,7 @@ def caselocation(request):
     case_num = request.GET.get('no')
     caseLocations = CaseLocation.objects.filter(case__no=case_num)
     for caselocation in caseLocations:
-        caselocation.category = caselocation.category.replace(
-            '1', 'Residence').replace('2', 'Workplace').replace('3', 'Visit')
+        caselocation.category = caselocation.category.replace('1', 'Residence').replace('2', 'Workplace').replace('3', 'Visit')
     context = {'caseLocations': caseLocations, 'no': case_num}
     return render(request, 'cases/caselocation.html', context)
 
