@@ -44,7 +44,7 @@ def create_virus(request):
 
 
 def main(request):
-    cases = Case.objects.order_by('-no')[:]
+    cases = Case.objects.order_by('-no').reverse()
     for case in cases:
         case.local = case.local.replace('1', 'local').replace('2', 'imported')
     context = {'cases': cases}

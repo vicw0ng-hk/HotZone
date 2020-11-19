@@ -10,10 +10,11 @@
 
 <body>
     <h1>Create Virus</h1>
+    <hr />
     <form method="POST" action="/cases/add/create_virus">
         {% csrf_token %}
         {% load l10n %}
-        <table class="table">
+        <table class="table table-borderless">
             <thead>
                 <tr>
                     <th scope="col">Virus Name</th>

@@ -16,6 +16,7 @@
 <body>
     <form method="POST" action="/cases/add">
         <h1>Adding Case</h1>
+        <hr />
         {% csrf_token %}
         {% load l10n %}
         {% if messages %}
@@ -25,7 +26,7 @@
             {% endfor %}
         </ul>
         {% endif %}
-        <table class="table">
+        <table class="table table-borderless">
             <tbody>
                 <tr scope="row">
                     <th>Case No.</th>

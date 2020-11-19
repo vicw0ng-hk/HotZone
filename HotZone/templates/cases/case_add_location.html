@@ -15,10 +15,11 @@
 
 <body>
     <h1>Add Location: Case NO. {{no}}</h1>
+    <hr />
     <form method="POST" action="/cases/caselocation/add?no={{ no }}">
         {% csrf_token %}
         {% load l10n %}
-        <table class="table">
+        <table class="table table-borderless">
             <thead>
                 <tr>
                     <th scope="col">Location</th>
