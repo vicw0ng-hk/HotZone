@@ -14,7 +14,7 @@
     <form action="{% url 'locations:index'%}" method="post">
         {% csrf_token %}
         {{form.name}}
-        <input type="submit" name="Find Location" value="search">
+        <input type="submit" name="Find Location" value="Search">
     </form>
     <hr />
     {% if location_list %}
@@ -45,7 +45,7 @@
 
     <button type="button" class="btn btn-link">
         <a href="/cases">
-            Back to Main Page
+            <input type="submit" name="back" value="Back to Main Page">
         </a>
     </button>
 

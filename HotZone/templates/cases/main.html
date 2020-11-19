@@ -48,7 +48,7 @@
                 <td>{{ case.virus.name }}</th>
                 <td>{{ case.virus.common_name }}</th>
                 <td>{{ case.virus.max_inf_period }}</th>
-                <td><a href="caselocation?no={{ case.no }}">Check Case Location</a></th>
+                <td><a href="caselocation?no={{ case.no }}"><input type="submit" name="check_case_location" value="Check Case Location"></a></th>
             </tr>
             {% endfor %}
         </tbody>
