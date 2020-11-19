@@ -6,7 +6,7 @@ from .models import Location
 
 class LocationForm(forms.ModelForm):
     name = forms.CharField(widget=forms.TextInput(
-        attrs={'placeholder': 'Input location...'}))
+        attrs={'placeholder': 'Input location...', 'class': 'form-control'}))
 
     class Meta:
         model = Location

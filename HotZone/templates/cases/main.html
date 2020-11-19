@@ -9,18 +9,14 @@
 </head>
 
 <body>
-    <h3>HotZone Main Page</h3>
+    <h1>HotZone Main Page</h1>
     {% csrf_token %}
-    <button type="button" class="btn btn-link">
-        <a href="add">
-            <input type="submit" name="create_case" value="Add a Case">
-        </a>
-    </button>
-    <button type="button" class="btn btn-link">
-        <a href="/locations">
-            <input type="submit" name="create_virus" value="Check All Locations">
-        </a>
-    </button>
+    <a class="btn btn-primary" href="add">
+        Add New Case
+    </a>
+    <a class="btn btn-warning" href="/locations">
+        View Known Locations
+    </a>
     <table class="table table-striped">
         <thead>
             <tr>
@@ -40,15 +36,19 @@
             {% for case in cases %}
             <tr scope="row">
                 <th>{{ case.no }}</th>
-                <td>{{ case.date_confirmed }}</th>
-                <td>{{ case.local }}</th>
-                <td>{{ case.patient.name }}</th>
-                <td>{{ case.patient.hkid }}</th>
-                <td>{{ case.patient.birthday }}</th>
-                <td>{{ case.virus.name }}</th>
-                <td>{{ case.virus.common_name }}</th>
-                <td>{{ case.virus.max_inf_period }}</th>
-                <td><a href="caselocation?no={{ case.no }}"><input type="submit" name="check_case_location" value="Check Case Location"></a></th>
+                <td>{{ case.date_confirmed }}</td>
+                <td>{{ case.local }}</td>
+                <td>{{ case.patient.name }}</td>
+                <td>{{ case.patient.hkid }}</td>
+                <td>{{ case.patient.birthday }}</td>
+                <td>{{ case.virus.name }}</td>
+                <td>{{ case.virus.common_name }}</td>
+                <td>{{ case.virus.max_inf_period }}</td>
+                <td>
+                    <a class="btn btn-info" href="caselocation?no={{ case.no }}">
+                        View Case Locations
+                    </a>
+                </td>
             </tr>
             {% endfor %}
         </tbody>

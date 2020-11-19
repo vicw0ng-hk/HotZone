@@ -29,7 +29,8 @@ def index(request):
 
 def select(request, query):
     session = requests.Session()
-    response = session.get('https://geodata.gov.hk/gs/api/v1.0.0/locationSearch?q=' + query)
+    response = session.get(
+        'https://geodata.gov.hk/gs/api/v1.0.0/locationSearch?q=' + query)
     select_list = response.json()
     template = loader.get_template('locations/select.html')
     context = {
@@ -49,7 +50,7 @@ def select(request, query):
                 context = {
                     'query': query,
                     'select_list': select_list,
-                    'error_message': "The location list has already contained this location.",
+                    'error_message': "This location is known to HotZone. Please select again!",
                 }
                 return HttpResponse(template.render(context, request))
             else:

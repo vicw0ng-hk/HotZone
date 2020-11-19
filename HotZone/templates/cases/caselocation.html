@@ -10,7 +10,7 @@
 
 <body>
     {% csrf_token %}
-    <h3>Location List: Case NO. {{no}}</h3>
+    <h1>Location List: Case NO. {{no}}</h1>
     <table class="table table-striped">
         <thead>
             <tr>
@@ -38,16 +38,12 @@
         </tbody>
     </table>
 
-    <button type="button" class="btn btn-link">
-        <a href="/cases">
-            <input type="submit" name="back" value="Back to Main Page">
-        </a>
-    </button>
-    <button type="button" class="btn btn-link">
-        <a href="/cases/caselocation/add?no={{ no }}">
-            <input type="submit" name="add" value="Add a Location Record">
-        </a>
-    </button>
+    <a href="/cases" class="btn btn-warning">
+        Back to Main Page
+    </a>
+    <a href="/cases/caselocation/add?no={{ no }}" class="btn btn-primary">
+        Add a Location Record
+    </a>
 </body>
 
 </html>

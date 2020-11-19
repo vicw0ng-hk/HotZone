@@ -9,6 +9,7 @@
 </head>
 
 <body>
+    <h1>Create Virus</h1>
     <form method="POST" action="/cases/add/create_virus">
         {% csrf_token %}
         {% load l10n %}
@@ -25,16 +26,14 @@
                     <th>{{ form.virus_name }}</th>
                     <th>{{ form.virus_common_name }}</th>
                     <th>{{ form.max_inf_period }}</th>
-                    <th><input type="submit" name="Add Case" value="Create"></th>
+                    <th><Button class="btn btn-info" type="submit" name="Add Case" value="Create">Create</th>
                 </tr>
             </tbody>
         </table>
     </form>
-    <button type="button" class="btn btn-link">
-        <a href="/cases">
-            <input type="submit" name="back" value="Back to Main Page">
-        </a>
-    </button>
+    <a href="/cases" class="btn btn-warning">
+        Back to Main Page
+    </a>
 </body>
 
 </html>

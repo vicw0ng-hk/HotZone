@@ -9,12 +9,16 @@
 </head>
 
 <body>
-    <h3>Location List</h3>
+    <h1>Location List</h1>
     <p>Search New location:</p>
     <form action="{% url 'locations:index'%}" method="post">
         {% csrf_token %}
-        {{form.name}}
-        <input type="submit" name="Find Location" value="Search">
+        <div class="w-25 input-group mb-3">
+            {{form.name}}
+            <div class="input-group-append">
+                <Button class="btn btn-info" type="submit" name="Find Location" value="Search">Search</Button>
+            </div>
+        </div>
     </form>
     <hr />
     {% if location_list %}
@@ -22,10 +26,10 @@
     <table class="table table-striped table-borderless">
         <thead>
             <tr>
-                <th scope="col">name</th>
-                <th scope="col">address</th>
-                <th scope="col">x</th>
-                <th scope="col">y</th>
+                <th scope="col">Name</th>
+                <th scope="col">Address</th>
+                <th scope="col">X</th>
+                <th scope="col">Y</th>
             </tr>
         </thead>
         <tbody>
@@ -43,11 +47,9 @@
     <p>No location are found.</p>
     {% endif %}
 
-    <button type="button" class="btn btn-link">
-        <a href="/cases">
-            <input type="submit" name="back" value="Back to Main Page">
-        </a>
-    </button>
+    <a href="/cases" class="btn btn-warning">
+        Back to Main Page
+    </a>
 
 </body>
 
