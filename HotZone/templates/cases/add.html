@@ -1,33 +1,85 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <title>Add Cases</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css"
+        integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
+    <style>
+        li {
+            list-style-type: none;
+        }
+    </style>
 </head>
+
 <body>
-<form method="POST" action="/cases/add">
-    {% csrf_token %}
-    {% load l10n %}
-    {% if messages %}
-    <ul class="messages">
-        {% for message in messages %}
-        <div {% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</div>
-        {% endfor %}
-    </ul>
-    {% endif %}
-    <table>
-    <tr>
-        <th>Case No.</th>
-        <th>Date Confirmed</th>
-        <th>Local/Imported</th>
-    </tr>
-    <tr>
-        <th>{{ form.case_no }}</th>
-        <th>{{ form.date_confirmed | localize }}</th>
-        <th>{{ form.local }}</th>
-        <th><input type="submit" name="Add Case" value="Next"></th>
-    </tr>
-    </table>
-</form>
+    <form method="POST" action="/cases/add">
+        <h1>Adding Case</h1>
+        <hr />
+        <a href="/cases" class="btn btn-warning">
+            Back to Main Page
+        </a>
+
+        <a href="/cases/add/create_virus" class="btn btn-primary">
+            Create a New Virus
+        </a>
+        {% csrf_token %}
+        {% load l10n %}
+        {% if messages %}
+        <ul class="messages">
+            {% for message in messages %}
+            <div {% if message.tags %} class="{{ message.tags }}" {% endif %}><h2>{{ message }}</h2></div>
+            {% endfor %}
+        </ul>
+        {% endif %}
+        <table class="table table-borderless">
+            <tbody>
+                <tr scope="row">
+                    <th>Case No.</th>
+                    <th>Date Confirmed</th>
+                    <th>Local/Imported</th>
+                </tr>
+                <tr scope="row">
+                    <th>{{ CaseForm.case_no }}</th>
+                    <th>{{ CaseForm.date_confirmed | localize }}</th>
+                    <th>
+                        {{ CaseForm.local }}
+                    </th>
+                </tr>
+                <tr scope="row">
+                    <th>Name</th>
+                    <th>ID No.</th>
+                    <th>Birthday</th>
+                </tr>
+                <tr scope="row">
+                    <th>{{ PatientForm.patient_name }}</th>
+                    <th>{{ PatientForm.patient_id }}</th>
+                    <th>{{ PatientForm.patient_birthday | localize }}</th>
+                </tr>
+                <tr scope="row">
+                    <th>Choose Virus</th>
+                    <th></th>
+                    <th></th>
+                </tr>
+                <tr scope="row">
+                    <th>{{ VirusForm.virus_name }}</th>
+                    <th></th>
+                    <th></th>
+                </tr>
+                <tr scope="row">
+                    <th>
+                        <Button class="btn btn-info" type="submit" name="Add Case" value="Add">
+                            Add
+                        </Button>
+                    </th>
+                    <th></th>
+                    <th></th>
+                </tr>
+            </tbody>
+        </table>
+    </form>
+
 </body>
+
 </html>

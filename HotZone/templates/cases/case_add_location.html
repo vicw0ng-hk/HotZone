@@ -1,31 +1,56 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <title>Add Location For Existing Case</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css"
+        integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
+    <style>
+        li {
+            list-style-type: none;
+        }
+    </style>
 </head>
+
 <body>
-<form method="POST" action="/cases/caselocation/add?no={{ no }}">
-    {% csrf_token %}
-    {% load l10n %}
-    <table>
-    <tr>
-        <th>Location</th>
-        <th>Date From</th>
-        <th>Date To</th>
-        <th>Category</th>
-    </tr>
-    <tr>
-        <th>{{ form.location }}</th>
-        <th>{{ form.date_from | localize }}</th>
-        <th>{{ form.date_to | localize }}</th>
-        <th>{{ form.category }}</th>
-        <th><input type="submit" name="Add Case" value="Finish"></th>
-    </tr>
-    </table>
-</form>
-<a href="/locations">
-    <input type="submit" name="new location" value="Add a New Location">
-</a>
+    <h1>Add Location: Case NO. {{no}}</h1>
+    <hr />
+    <a href="/cases/caselocation?no={{no}}" class="btn btn-warning">
+        Back to Case Location List
+    </a>
+
+    <a href="/locations" class="btn btn-primary">
+        Search a New Location
+    </a>
+    <form method="POST" action="/cases/caselocation/add?no={{ no }}">
+        {% csrf_token %}
+        {% load l10n %}
+        <table class="table table-borderless">
+            <thead>
+                <tr>
+                    <th scope="col">Location</th>
+                    <th scope="col">Date From</th>
+                    <th scope="col">Date To</th>
+                    <th scope="col">Category</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr scope="row">
+                    <th>{{ form.location }}</th>
+                    <th>{{ form.date_from | localize }}</th>
+                    <th>{{ form.date_to | localize }}</th>
+                    <th>{{ form.category }}</th>
+                    <th>
+                        <Button class="btn btn-info" type="submit" name="Add Case" value="Add Location">
+                            Add
+                        </Button>
+                    </th>
+                </tr>
+            </tbody>
+        </table>
+    </form>
 </body>
+
 </html>
