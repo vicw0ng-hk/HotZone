@@ -16,6 +16,13 @@
     </a>
     <hr />
     <p>Search New location:</p>
+    {% if messages %}
+    <ul class="messages">
+        {% for message in messages %}
+        <div {% if message.tags %} class="{{ message.tags }}" {% endif %}><h2>{{ message }}</h2></div>
+        {% endfor %}
+    </ul>
+    {% endif %}
     <form action="{% url 'locations:index'%}" method="post">
         {% csrf_token %}
         <div class="w-25 input-group mb-3">

@@ -6,6 +6,7 @@ from django.views import generic
 from .forms import *
 from .models import Location
 import requests
+from django.contrib import messages
 
 
 # Create your views here.
@@ -31,6 +32,9 @@ def select(request, query):
     session = requests.Session()
     response = session.get(
         'https://geodata.gov.hk/gs/api/v1.0.0/locationSearch?q=' + query)
+    if not response:
+        messages.info(request, 'No search result!')
+        return HttpResponseRedirect('/locations/')
     select_list = response.json()
     template = loader.get_template('locations/select.html')
     context = {
