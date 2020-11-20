@@ -21,5 +21,6 @@ urlpatterns = [
     path('cases/', include('cases.urls')),
     path('locations/', include('locations.urls')),
     path('admin/', admin.site.urls),
-    path('', lambda req: redirect('cases/'))
+    path('', lambda req: redirect('cases/')),
+    path('accounts/', include('django.contrib.auth.urls')),
 ]
