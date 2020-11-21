@@ -28,8 +28,8 @@
             <tbody>
                 {% for location in select_list %}
                 <tr>
-                    <td>Name: {{ location.nameEN }}</td>
-                    <td>Address: {{ location.addressEN }}</td>
+                    <td>{{ location.nameEN }}</td>
+                    <td>{{ location.addressEN }}</td>
                     <td>
                         <Button class="btn btn-info" type="submit" name="choice" id="choice{{ forloop.counter0 }}"
                             value="{{ forloop.counter0 }}">
