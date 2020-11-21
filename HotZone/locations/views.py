@@ -52,7 +52,7 @@ def select(request, query):
                                     y=selected_choice['y'],
                                     name=selected_choice['nameEN'],
                                     address=selected_choice['addressEN'])
-            if Location.objects.filter(address=new_location.address).exists():
+            if Location.objects.filter(x=new_location.x, y=new_location.y).exists():
                 context = {
                     'query': query,
                     'select_list': select_list,
