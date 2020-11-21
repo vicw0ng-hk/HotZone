@@ -20,15 +20,15 @@
             <table>
                 <tr>
                     <td>{{ form.username.label_tag }}</td>
-                    <td>{{ form.username }}</td>
+                    <td><input class="form-control" type="text" name="username" autofocus autocapitalize="none" autocomplete="username" maxlength="150" required id="id_username"></td>
                 </tr>
                 <tr>
                     <td>{{ form.password.label_tag }}</td>
-                    <td>{{ form.password }}</td>
+                    <td><input class="form-control" type="password" name="password" autocomplete="current-password" required id="id_password"></td>
                 </tr>
             </table>
-            <input type="submit" value="login" />
-            <input type="hidden" name="next" value="{{ next }}" />
+            <input type="submit" value="login" class="btn btn-primary">
+            <input type="hidden" name="next" value="{{ next }}" class="btn btn-info">
         </form>
 
 
