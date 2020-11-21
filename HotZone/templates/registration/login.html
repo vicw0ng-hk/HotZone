@@ -36,8 +36,6 @@
                 })
             });
         </script>
-    <h1>Login information is incorrect!</h1>
-    <h1>Please re-enter username and password.</h1>
     {% endif %}
     <form method="post" action="{% url 'login' %}">
         {% csrf_token %}
