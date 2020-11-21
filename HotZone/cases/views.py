@@ -3,11 +3,13 @@ from .forms import *
 from .models import *
 from django.contrib import messages
 from django.http import HttpResponseRedirect
+from django.contrib.auth.decorators import login_required
 
 # Create your views here.
 case = {}
 
 
+@login_required
 def add(request):
     context = {'CaseForm': CaseForm(), 'PatientForm': PatientForm(), 'VirusForm': VirusForm()}
     if request.method == 'POST':
@@ -32,6 +34,7 @@ def add(request):
     return render(request, 'cases/add.html', context)
 
 
+@login_required
 def create_virus(request):
     form = NewVirusForm()
     context = {'form': form}
@@ -45,6 +48,7 @@ def create_virus(request):
     return render(request, 'cases/create_virus.html', context)
 
 
+@login_required
 def main(request):
     cases = Case.objects.order_by('-no')[:]
     for case in cases:
@@ -53,6 +57,7 @@ def main(request):
     return render(request, 'cases/main.html', context)
 
 
+@login_required
 def caselocation(request):
     case_num = request.GET.get('no')
     caseLocations = CaseLocation.objects.filter(case__no=case_num)
@@ -62,6 +67,7 @@ def caselocation(request):
     return render(request, 'cases/caselocation.html', context)
 
 
+@login_required
 def caselocation_add(request):
     case_num = request.GET.get('no')
     case = Case.objects.filter(no=case_num).first()
