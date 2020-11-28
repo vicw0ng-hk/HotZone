@@ -1,6 +1,7 @@
 from sklearn.cluster import DBSCAN
 import math
 import datetime
+from locations.models import *
 
 
 class Cluster:
@@ -37,7 +38,9 @@ class Cluster:
                 ans['cluster'] = "Cluster {} size: {}\n".format(k, len(cluster_k))
                 tmp = []
                 for pt in cluster_k:
-                    tmp.append([pt[0], pt[1], datetime.date(2020, 1, 1) + datetime.timedelta(days=int(pt[2])), pt[3]])
+                    location = Location.objects.filter(x=int(pt[0]), y=int(pt[1])).values_list('name')[0][0]
+                    print(location)
+                    tmp.append([location, pt[0], pt[1], datetime.date(2020, 1, 1) + datetime.timedelta(days=int(pt[2])), pt[3]])
                 ans['data'] = tmp
                 ans_list.append(ans)
         return overview, ans_list

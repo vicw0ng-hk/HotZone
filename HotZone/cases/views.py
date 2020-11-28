@@ -93,13 +93,16 @@ def caselocation_add(request):
 
 @login_required
 def cluster(request):
+    qs = CaseLocation.objects.filter(date_from=models.F('date_to')).values_list('location__x', 'location__y', 'date_from', 'case__no')
+    if len(qs) < 2:
+        context = {'message': 'Not enough data!'}
+        return render(request, 'cases/cluster_failed.html', context)
     D, T, C = 200, 3, 2
     if request.method == 'POST':
         tmp = request.POST
         if tmp.__getitem__('D'): D = int(tmp.__getitem__('D'))
         if tmp.__getitem__('T'): T = int(tmp.__getitem__('T'))
         if tmp.__getitem__('C'): C = int(tmp.__getitem__('C'))
-    qs = CaseLocation.objects.filter(date_from=models.F('date_to')).values_list('location__x', 'location__y', 'date_from', 'case__no')
     l = []
     for q in qs:
         tmp = []
@@ -109,7 +112,5 @@ def cluster(request):
     v4 = np.array(l)
     data = Cluster(v4, D, T, C)
     overview, ans_list = Cluster.cluster(data)
-    print(overview)
-    print(ans_list)
     context = {'overview': overview, 'ans': ans_list, 'D': D, 'T': T, 'C': C}
     return render(request, 'cases/cluster.html', context)
