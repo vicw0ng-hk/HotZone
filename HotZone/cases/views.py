@@ -112,15 +112,18 @@ def cluster(request):
             T = int(tmp.__getitem__('T'))
         if tmp.__getitem__('C'):
             C = int(tmp.__getitem__('C'))
-    l = []
-    for q in qs:
-        tmp = []
-        for i in range(4):
-            tmp += [(q[i]-datetime.date(2020, 1, 1)).days] if i == 2 else [q[i]]
-        l.append(tmp)
-    v4 = np.array(l)
-    data = Cluster(v4, D, T, C)
-    overview, ans_list = Cluster.cluster(data)
-    context = {'overview': overview, 'ans': ans_list,
-               'D': D, 'T': T, 'C': C, 'VirusForm': VirusForm()}
+        l = []
+        for q in qs:
+            tmp = []
+            for i in range(4):
+                tmp += [(q[i]-datetime.date(2020, 1, 1)
+                         ).days] if i == 2 else [q[i]]
+            l.append(tmp)
+        v4 = np.array(l)
+        data = Cluster(v4, D, T, C)
+        overview, ans_list = Cluster.cluster(data)
+        context = {'overview': overview, 'ans': ans_list,
+                   'D': D, 'T': T, 'C': C, 'VirusForm': VirusForm()}
+        return render(request, 'cases/cluster.html', context)
+    context = {'D': D, 'T': T, 'C': C, 'VirusForm': VirusForm()}
     return render(request, 'cases/cluster.html', context)
