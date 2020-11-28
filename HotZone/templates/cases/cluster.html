@@ -19,9 +19,9 @@
         <table class="table table-borderless">
             <thead>
                 <tr>
-                    <th scope="col">D (Default 200 if not specified)</th>
-                    <th scope="col">T (Default 3 if not specified)</th>
-                    <th scope="col">C (Default 2 if not specified)</th>
+                    <th scope="col">D (Default 200 if not specified):</th>
+                    <th scope="col">T (Default 3 if not specified):</th>
+                    <th scope="col">C (Default 2 if not specified):</th>
                     <th scope="col">Virus:</th>
                     <th></th>
                 </tr>
@@ -31,7 +31,7 @@
                     <th><input type="text" class="form-control" name="D"></th>
                     <th><input type="text" class="form-control" name="T"></th>
                     <th><input type="text" class="form-control" name="C"></th>
-                    <th>{{ VirusForm.virus_name }}</th>
+                    <th>{{ form.virus_name }}</th>
                     <th>
                         <Button type="submit" class="btn btn-primary" name="Cluster" value="Cluster">Cluster!</button>
                     </th>

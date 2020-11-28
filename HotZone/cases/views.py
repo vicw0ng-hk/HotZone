@@ -92,6 +92,7 @@ def caselocation_add(request):
 
 @login_required
 def cluster(request):
+    form = VirusForm()
     if request.method == 'POST':
         tmp = request.POST
         qs = CaseLocation.objects.filter(date_from=models.F('date_to'), case__virus__name__contains=tmp.__getitem__('virus_name')).values_list('location__x', 'location__y', 'date_from', 'case__no')
@@ -111,7 +112,7 @@ def cluster(request):
         data = Cluster(v4, D, T, C)
         overview, ans_list = Cluster.cluster(data)
         message = 'Performed clustering with D = {}, T = {} and C = {}'.format(D, T, C)
-        context = {'overview': overview, 'ans': ans_list, 'D': D, 'T': T, 'C': C, 'VirusForm': VirusForm(), 'message': message}
+        context = {'overview': overview, 'ans': ans_list, 'D': D, 'T': T, 'C': C, 'form': form, 'message': message}
         return render(request, 'cases/cluster.html', context)
-    context = {'VirusForm': VirusForm()}
+    context = {'form': form}
     return render(request, 'cases/cluster.html', context)
