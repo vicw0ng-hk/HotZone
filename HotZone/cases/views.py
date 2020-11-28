@@ -104,6 +104,8 @@ def cluster(request):
     if request.method == 'POST':
         tmp = request.POST
         print(tmp.__getitem__('virus_name'))
+        qs = CaseLocation.objects.filter(date_from=models.F('date_to'), case__virus__name__contains=tmp.__getitem__('virus_name')).values_list(
+            'location__x', 'location__y', 'date_from', 'case__no')
         if tmp.__getitem__('D'):
             D = int(tmp.__getitem__('D'))
         if tmp.__getitem__('T'):
