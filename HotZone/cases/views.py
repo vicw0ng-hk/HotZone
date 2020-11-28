@@ -15,7 +15,8 @@ case = {}
 
 @login_required
 def add(request):
-    context = {'CaseForm': CaseForm(), 'PatientForm': PatientForm(), 'VirusForm': VirusForm()}
+    context = {'CaseForm': CaseForm(), 'PatientForm': PatientForm(),
+               'VirusForm': VirusForm()}
     if request.method == 'POST':
         tmp = request.POST
         case['case_no'] = tmp.__getitem__('case_no')
@@ -66,7 +67,8 @@ def caselocation(request):
     case_num = request.GET.get('no')
     caseLocations = CaseLocation.objects.filter(case__no=case_num)
     for caselocation in caseLocations:
-        caselocation.category = caselocation.category.replace('1', 'Residence').replace('2', 'Workplace').replace('3', 'Visit')
+        caselocation.category = caselocation.category.replace(
+            '1', 'Residence').replace('2', 'Workplace').replace('3', 'Visit')
     context = {'caseLocations': caseLocations, 'no': case_num}
     return render(request, 'cases/caselocation.html', context)
 
@@ -93,16 +95,21 @@ def caselocation_add(request):
 
 @login_required
 def cluster(request):
-    qs = CaseLocation.objects.filter(date_from=models.F('date_to')).values_list('location__x', 'location__y', 'date_from', 'case__no')
+    qs = CaseLocation.objects.filter(date_from=models.F('date_to')).values_list(
+        'location__x', 'location__y', 'date_from', 'case__no')
     if len(qs) < 2:
         context = {'message': 'Not enough data!'}
         return render(request, 'cases/cluster_failed.html', context)
     D, T, C = 200, 3, 2
     if request.method == 'POST':
         tmp = request.POST
-        if tmp.__getitem__('D'): D = int(tmp.__getitem__('D'))
-        if tmp.__getitem__('T'): T = int(tmp.__getitem__('T'))
-        if tmp.__getitem__('C'): C = int(tmp.__getitem__('C'))
+        print(tmp.__getitem__('virus_name'))
+        if tmp.__getitem__('D'):
+            D = int(tmp.__getitem__('D'))
+        if tmp.__getitem__('T'):
+            T = int(tmp.__getitem__('T'))
+        if tmp.__getitem__('C'):
+            C = int(tmp.__getitem__('C'))
     l = []
     for q in qs:
         tmp = []
@@ -112,5 +119,6 @@ def cluster(request):
     v4 = np.array(l)
     data = Cluster(v4, D, T, C)
     overview, ans_list = Cluster.cluster(data)
-    context = {'overview': overview, 'ans': ans_list, 'D': D, 'T': T, 'C': C}
+    context = {'overview': overview, 'ans': ans_list,
+               'D': D, 'T': T, 'C': C, 'VirusForm': VirusForm()}
     return render(request, 'cases/cluster.html', context)
