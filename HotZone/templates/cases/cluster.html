@@ -29,9 +29,7 @@
     </form>
     {% autoescape on %}
     <p>Performed clustering with D = {{ D }}, T = {{ T }} and C = {{ C }}</p>
-    {% for o in overview %}
-        <p>{{ o | linebreaksbr }}</p>
-    {% endfor %}
+        <p>{{ overview | linebreaksbr }}</p>
     {% for a in ans %}
         <p>{{ a.cluster }}</p>
         <table class="table">

@@ -108,18 +108,8 @@ def cluster(request):
         l.append(tmp)
     v4 = np.array(l)
     data = Cluster(v4, D, T, C)
-    ans = Cluster.cluster(data).split('\n\n')[:-1]
-    overview, ans = ans[:1], ans[1:]
-    ans_list = []
-    for a in ans:
-        tmp = a.split('\n')
-        tmp_dict = {}
-        tmp_dict['cluster'] = tmp[0]
-        tmp_data_list = tmp[1:]
-        for i in range(len(tmp_data_list)):
-            tmp_data_list[i] = tmp_data_list[i].split(', ')
-            tmp_data_list[i][2] = datetime.date(2020, 1, 1) + datetime.timedelta(days=int(tmp_data_list[i][2]))
-        tmp_dict['data'] = tmp_data_list
-        ans_list.append(tmp_dict)
+    overview, ans_list = Cluster.cluster(data)
+    print(overview)
+    print(ans_list)
     context = {'overview': overview, 'ans': ans_list, 'D': D, 'T': T, 'C': C}
     return render(request, 'cases/cluster.html', context)
