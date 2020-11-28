@@ -4,6 +4,10 @@ from .models import *
 from django.contrib import messages
 from django.http import HttpResponseRedirect
 from django.contrib.auth.decorators import login_required
+import numpy as np
+from .cluster import Cluster
+import datetime
+import re
 
 # Create your views here.
 case = {}
@@ -85,3 +89,37 @@ def caselocation_add(request):
         return redirect('/cases/caselocation?no=' + case_num)
     context = {'form': form, 'no': case_num}
     return render(request, 'cases/case_add_location.html', context)
+
+
+@login_required
+def cluster(request):
+    D, T, C = 200, 3, 2
+    if request.method == 'POST':
+        tmp = request.POST
+        if tmp.__getitem__('D'): D = int(tmp.__getitem__('D'))
+        if tmp.__getitem__('T'): T = int(tmp.__getitem__('T'))
+        if tmp.__getitem__('C'): C = int(tmp.__getitem__('C'))
+    qs = CaseLocation.objects.filter(date_from=models.F('date_to')).values_list('location__x', 'location__y', 'date_from', 'case__no')
+    l = []
+    for q in qs:
+        tmp = []
+        for i in range(4):
+            tmp += [(q[i]-datetime.date(2020, 1, 1)).days] if i == 2 else [q[i]]
+        l.append(tmp)
+    v4 = np.array(l)
+    data = Cluster(v4, D, T, C)
+    ans = Cluster.cluster(data).split('\n\n')[:-1]
+    overview, ans = ans[:1], ans[1:]
+    ans_list = []
+    for a in ans:
+        tmp = a.split('\n')
+        tmp_dict = {}
+        tmp_dict['cluster'] = tmp[0]
+        tmp_data_list = tmp[1:]
+        for i in range(len(tmp_data_list)):
+            tmp_data_list[i] = tmp_data_list[i].split(', ')
+            tmp_data_list[i][2] = datetime.date(2020, 1, 1) + datetime.timedelta(days=int(tmp_data_list[i][2]))
+        tmp_dict['data'] = tmp_data_list
+        ans_list.append(tmp_dict)
+    context = {'overview': overview, 'ans': ans_list, 'D': D, 'T': T, 'C': C}
+    return render(request, 'cases/cluster.html', context)
