@@ -4,6 +4,9 @@ from .models import *
 from django.contrib import messages
 from django.http import HttpResponseRedirect
 from django.contrib.auth.decorators import login_required
+import numpy as np
+from .cluster import Cluster
+import datetime
 
 # Create your views here.
 case = {}
@@ -85,3 +88,31 @@ def caselocation_add(request):
         return redirect('/cases/caselocation?no=' + case_num)
     context = {'form': form, 'no': case_num}
     return render(request, 'cases/case_add_location.html', context)
+
+
+@login_required
+def cluster(request):
+    form = VirusForm()
+    if request.method == 'POST':
+        tmp = request.POST
+        qs = CaseLocation.objects.filter(date_from=models.F('date_to'), case__virus__name__contains=tmp.__getitem__('virus_name')).values_list('location__x', 'location__y', 'date_from', 'case__no')
+        if len(qs) < 2:
+            context = {'message': 'Not enough data!'}
+            return render(request, 'cases/cluster_failed.html', context)
+        D = int(tmp.__getitem__('D')) if tmp.__getitem__('D') else 200
+        T = int(tmp.__getitem__('T')) if tmp.__getitem__('T') else 3
+        C = int(tmp.__getitem__('C')) if tmp.__getitem__('C') else 2
+        l = []
+        for q in qs:
+            tmp = []
+            for i in range(4):
+                tmp += [(q[i]-datetime.date(2020, 1, 1)).days] if i == 2 else [q[i]]
+            l.append(tmp)
+        v4 = np.array(l)
+        data = Cluster(v4, D, T, C)
+        overview, ans_list = Cluster.cluster(data)
+        message = 'Performed clustering with D = {}, T = {} and C = {}'.format(D, T, C)
+        context = {'overview': overview, 'ans': ans_list, 'D': D, 'T': T, 'C': C, 'form': form, 'message': message}
+        return render(request, 'cases/cluster.html', context)
+    context = {'form': form}
+    return render(request, 'cases/cluster.html', context)
