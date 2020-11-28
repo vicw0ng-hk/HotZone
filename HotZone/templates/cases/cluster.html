@@ -9,7 +9,7 @@
 </head>
 
 <body>
-    <h1>Clustering Locations</h1>
+    <h1>Location Clustering</h1>
     <hr />
     <a href="/cases" class="btn btn-warning">
         Back to Main Page
@@ -19,9 +19,9 @@
         <table class="table table-borderless">
             <thead>
                 <tr>
-                    <th scope="col">D</th>
-                    <th scope="col">T</th>
-                    <th scope="col">C</th>
+                    <th scope="col">D (Default 200 if not specified)</th>
+                    <th scope="col">T (Default 3 if not specified)</th>
+                    <th scope="col">C (Default 2 if not specified)</th>
                     <th scope="col">Virus:</th>
                     <th></th>
                 </tr>
@@ -40,11 +40,13 @@
         </table>
     </form>
     {% autoescape on %}
-    <p>Performed clustering with D = {{ D }}, T = {{ T }} and C = {{ C }}</p>
+    {% if message %}
+    <p>{{ message }}</p>
+    {% endif %}
     <p>{{ overview | linebreaksbr }}</p>
     {% for a in ans %}
     <p>{{ a.cluster }}</p>
-    <table class="table">
+    <table class="table table-striped table-borderless">
         <tr>
             <th scope="col">Location Name</th>
             <th scope="col">X</th>

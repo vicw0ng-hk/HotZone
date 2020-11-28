@@ -7,7 +7,6 @@ from django.contrib.auth.decorators import login_required
 import numpy as np
 from .cluster import Cluster
 import datetime
-import re
 
 # Create your views here.
 case = {}
@@ -15,8 +14,7 @@ case = {}
 
 @login_required
 def add(request):
-    context = {'CaseForm': CaseForm(), 'PatientForm': PatientForm(),
-               'VirusForm': VirusForm()}
+    context = {'CaseForm': CaseForm(), 'PatientForm': PatientForm(), 'VirusForm': VirusForm()}
     if request.method == 'POST':
         tmp = request.POST
         case['case_no'] = tmp.__getitem__('case_no')
@@ -67,8 +65,7 @@ def caselocation(request):
     case_num = request.GET.get('no')
     caseLocations = CaseLocation.objects.filter(case__no=case_num)
     for caselocation in caseLocations:
-        caselocation.category = caselocation.category.replace(
-            '1', 'Residence').replace('2', 'Workplace').replace('3', 'Visit')
+        caselocation.category = caselocation.category.replace('1', 'Residence').replace('2', 'Workplace').replace('3', 'Visit')
     context = {'caseLocations': caseLocations, 'no': case_num}
     return render(request, 'cases/caselocation.html', context)
 
@@ -95,35 +92,26 @@ def caselocation_add(request):
 
 @login_required
 def cluster(request):
-    qs = CaseLocation.objects.filter(date_from=models.F('date_to')).values_list(
-        'location__x', 'location__y', 'date_from', 'case__no')
-    if len(qs) < 2:
-        context = {'message': 'Not enough data!'}
-        return render(request, 'cases/cluster_failed.html', context)
-    D, T, C = 200, 3, 2
     if request.method == 'POST':
         tmp = request.POST
-        print(tmp.__getitem__('virus_name'))
-        qs = CaseLocation.objects.filter(date_from=models.F('date_to'), case__virus__name__contains=tmp.__getitem__('virus_name')).values_list(
-            'location__x', 'location__y', 'date_from', 'case__no')
-        if tmp.__getitem__('D'):
-            D = int(tmp.__getitem__('D'))
-        if tmp.__getitem__('T'):
-            T = int(tmp.__getitem__('T'))
-        if tmp.__getitem__('C'):
-            C = int(tmp.__getitem__('C'))
+        qs = CaseLocation.objects.filter(date_from=models.F('date_to'), case__virus__name__contains=tmp.__getitem__('virus_name')).values_list('location__x', 'location__y', 'date_from', 'case__no')
+        if len(qs) < 2:
+            context = {'message': 'Not enough data!'}
+            return render(request, 'cases/cluster_failed.html', context)
+        D = int(tmp.__getitem__('D')) if tmp.__getitem__('D') else 200
+        T = int(tmp.__getitem__('T')) if tmp.__getitem__('T') else 3
+        C = int(tmp.__getitem__('C')) if tmp.__getitem__('C') else 2
         l = []
         for q in qs:
             tmp = []
             for i in range(4):
-                tmp += [(q[i]-datetime.date(2020, 1, 1)
-                         ).days] if i == 2 else [q[i]]
+                tmp += [(q[i]-datetime.date(2020, 1, 1)).days] if i == 2 else [q[i]]
             l.append(tmp)
         v4 = np.array(l)
         data = Cluster(v4, D, T, C)
         overview, ans_list = Cluster.cluster(data)
-        context = {'overview': overview, 'ans': ans_list,
-                   'D': D, 'T': T, 'C': C, 'VirusForm': VirusForm()}
+        message = 'Performed clustering with D = {}, T = {} and C = {}'.format(D, T, C)
+        context = {'overview': overview, 'ans': ans_list, 'D': D, 'T': T, 'C': C, 'VirusForm': VirusForm(), 'message': message}
         return render(request, 'cases/cluster.html', context)
-    context = {'D': D, 'T': T, 'C': C, 'VirusForm': VirusForm()}
+    context = {'VirusForm': VirusForm()}
     return render(request, 'cases/cluster.html', context)
