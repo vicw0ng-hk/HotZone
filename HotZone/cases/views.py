@@ -4,6 +4,8 @@ from .models import *
 from django.contrib import messages
 from django.http import HttpResponseRedirect
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.forms import PasswordChangeForm
+from django.contrib.auth import update_session_auth_hash
 import numpy as np
 from .cluster import Cluster
 import datetime
@@ -116,3 +118,25 @@ def cluster(request):
         return render(request, 'cases/cluster.html', context)
     context = {'form': form}
     return render(request, 'cases/cluster.html', context)
+
+
+@login_required
+def change_password(request):
+    if request.method == 'POST':
+        form = PasswordChangeForm(request.user, request.POST)
+        if form.is_valid():
+            user = form.save()
+            update_session_auth_hash(request, user)  # Important!
+            messages.success(request, 'Your password was successfully updated!')
+            return redirect('/cases/change_password_done')
+        else:
+            messages.error(request, 'Please correct the error below.')
+    else:
+        form = PasswordChangeForm(request.user)
+    return render(request, 'cases/change_password.html', {
+        'form': form
+    })
+
+@login_required
+def change_password_done(request):
+    return render(request, 'cases/change_password_done.html')
