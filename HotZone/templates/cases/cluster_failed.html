@@ -19,9 +19,13 @@
     </style>
 </head>
 <body>
-{% if message %}
-    <h2>{{ message }}</h2>
+    {% if messages %}
+    <ul class="messages">
+        {% for message in messages %}
+        <div {% if message.tags %} class="{{ message.tags }}" {% endif %}><h2>{{ message }}</h2></div>
+        {% endfor %}
+    </ul>
+    {% endif %}
     <a href="/cases" class="btn btn-warning">Main Page</a>
-{% endif %}
 </body>
 </html>

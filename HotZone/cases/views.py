@@ -18,6 +18,9 @@ def add(request):
     if request.method == 'POST':
         tmp = request.POST
         case['case_no'] = tmp.__getitem__('case_no')
+        if not case['case_no'].isdigit():
+            messages.info(request, 'Case number must be an integer!')
+            return HttpResponseRedirect('/cases/add')
         if Case.objects.filter(no=case['case_no']).exists():
             messages.info(request, 'Case exists!')
             return HttpResponseRedirect('/cases/add')
@@ -43,6 +46,9 @@ def create_virus(request):
     context = {'form': form}
     if request.method == 'POST':
         tmp = request.POST
+        if not tmp.__getitem__('max_inf_period').isdigit():
+            messages.info(request, 'Maximum infectious period must be an integer!')
+            return HttpResponseRedirect('/cases/add/create_virus')
         new_virus = Virus(name=tmp.__getitem__('virus_name'),
                           common_name=tmp.__getitem__('virus_common_name'),
                           max_inf_period=tmp.__getitem__('max_inf_period'))
@@ -81,9 +87,8 @@ def caselocation_add(request):
         dt_f = tmp.__getitem__('date_from')
         dt_t = tmp.__getitem__('date_to')
         cat = tmp.__getitem__('category')
-        new_caseLocation = CaseLocation(location=Location.objects.get(pk=loc),
-                                        date_from=dt_f, date_to=dt_t, category=cat,
-                                        case=case)
+        new_caseLocation = CaseLocation(location=Location.objects.get(pk=loc),date_from=dt_f, 
+                                        date_to=dt_t, category=cat,case=case)
         new_caseLocation.save()
         return redirect('/cases/caselocation?no=' + case_num)
     context = {'form': form, 'no': case_num}
@@ -95,13 +100,20 @@ def cluster(request):
     form = VirusForm()
     if request.method == 'POST':
         tmp = request.POST
-        qs = CaseLocation.objects.filter(date_from=models.F('date_to'), case__virus__name__contains=tmp.__getitem__('virus_name')).values_list('location__x', 'location__y', 'date_from', 'case__no')
+        _D = tmp.__getitem__('D')
+        _T = tmp.__getitem__('T')
+        _C = tmp.__getitem__('C')
+        if not ((_D.isdigit() or not _D) and (_T.isdigit() or not _T) and (_C.isdigit() or not _C)):
+            messages.info(request, 'D, T and C must be integers!')
+            return HttpResponseRedirect('/cases/cluster')
+        qs = CaseLocation.objects.filter(date_from=models.F('date_to'), case__virus__name__contains=Virus.objects.get(pk=tmp.__getitem__('virus_name'))).values_list('location__x', 'location__y', 'date_from', 'case__no')
         if len(qs) < 2:
-            context = {'message': 'Not enough data!'}
+            _messages = ['Not enough data!']
+            context = {'messages': _messages}
             return render(request, 'cases/cluster_failed.html', context)
-        D = int(tmp.__getitem__('D')) if tmp.__getitem__('D') else 200
-        T = int(tmp.__getitem__('T')) if tmp.__getitem__('T') else 3
-        C = int(tmp.__getitem__('C')) if tmp.__getitem__('C') else 2
+        D = int(_D) if _D else 200
+        T = int(_T) if _T else 3
+        C = int(_C) if _C else 2
         l = []
         for q in qs:
             tmp = []

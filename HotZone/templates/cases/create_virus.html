@@ -17,12 +17,19 @@
     <form method="POST" action="/cases/add/create_virus">
         {% csrf_token %}
         {% load l10n %}
+        {% if messages %}
+        <ul class="messages">
+            {% for message in messages %}
+            <div {% if message.tags %} class="{{ message.tags }}" {% endif %}><h2>{{ message }}</h2></div>
+            {% endfor %}
+        </ul>
+        {% endif %}
         <table class="table table-borderless">
             <thead>
                 <tr>
                     <th scope="col">Virus Name</th>
                     <th scope="col">Virus Common Name</th>
-                    <th scope="col">Maximum Infectious Period</th>
+                    <th scope="col">Maximum Infectious Period (in days)</th>
                 </tr>
             </thead>
             <tbody>
