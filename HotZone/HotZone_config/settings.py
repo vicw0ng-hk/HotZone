@@ -122,3 +122,18 @@ USE_TZ = True
 STATIC_URL = '/static/'
 
 LOGIN_REDIRECT_URL = '/'
+
+
+
+#For resetting email email host using gmail smtp
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+#EMAIL_BACKEND = "sendgrid_backend.SendgridBackend"
+#SENDGRID_API_KEY = os.environ.get("SENDGRID_API_KEY")
+SENDGRID_API_KEY = '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'
+SENDGRID_SANDBOX_MODE_IN_DEBUG = False
+
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST_USER = 'comphotzone' # this is exactly the value 'apikey'
+EMAIL_HOST_PASSWORD =  'comp3297' #'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'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
